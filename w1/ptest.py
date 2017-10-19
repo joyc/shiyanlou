@@ -5,10 +5,24 @@
 # @File    : ptest.py
 import sys
 
+
+# def check_int(*list):
+#     income = []
+#     for i in list:
+#         try:
+#             income.append(int(i.split(":")[1]))
+#         except ValueError:
+#             print("Parameter Error")
+#     print(income)
+#     return income
+
+
 list = sys.argv[1:]
 print(list)
+income = []
 for i in list:
-    print(i.split(":")[0])
-    print(i.split(":")[1])
-    # for j in (i[0].split(":")):
-    #     print(j)
+    try:
+        income.append(int(i.split(":")[1]))
+    except ValueError:
+        print("Parameter Error")
+print(income)

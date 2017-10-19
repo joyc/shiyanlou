@@ -50,25 +50,20 @@ def after_tax(income):
 if __name__ == '__main__':
     # if sys.argv[1] is not None:
     if len(sys.argv[1]) > 1:
-        try:
-            income = int(sys.argv[1].split(":"))
         info = sys.argv[1:]
+        income = []
         p_no = []
-        p_income = []
-        p_after_tax = []
         for i in info:
-            p_no.append(i[0])
-            p_income.append(i[1])
-            at = after_tax(i[1])
-            p_after_tax.append(at)
-
-        for i, j in zip(p_no, p_after_tax):
-            print("{s}:{:.2f}".format(i, j))
-
+            try:
+                before_tax = int(i.split(":")[1])
+                income.append(int(before_tax))
+                p_no.append(i.split(":")[0])
+            except ValueError:
+                print("Parameter Error")
+        p_after_tax = []
+        p_after_tax.extend([after_tax(x) for x in income])
         try:
-            income = int(sys.argv[1])
+            for i, j in zip(p_no, p_after_tax):
+                print("{}:{:.2f}".format(i, j))
         except ValueError:
             print("Parameter Error")
-        after_tax(income)
-    else:
-        print("Parameter Error")
