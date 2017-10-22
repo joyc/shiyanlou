@@ -106,14 +106,18 @@ class UserData:
 
     def calculator(self, income):
         """calculate payable tax and after tax income"""
-        out = []
         annuity = float(config.basic(income))  # 社保总额
-        taxable_income = (float(income) - float(annuity) - 3500.00)  # 课税对象金额
-        taxrate = self.tax_rate(taxable_income)  # 税率
-        deduction = deductions[taxrate]  # 速算扣除数
-        tax = taxable_income * taxrate - deduction  # 个税金额
-        after = float(income) - float(tax) - float(annuity)  # 税后工资
-        # print("社保总额:{}， 个税金额：{}， 税后工资：{}".format(annuity, tax, after))
+        out = []
+        if float(income) > 3500.00:
+            taxable_income = (float(income) - float(annuity) - 3500.00)  # 课税对象金额
+            taxrate = self.tax_rate(taxable_income)  # 税率
+            deduction = deductions[taxrate]  # 速算扣除数
+            tax = taxable_income * taxrate - deduction  # 个税金额
+            after = float(income) - float(tax) - float(annuity)  # 税后工资
+            # print("社保总额:{}， 个税金额：{}， 税后工资：{}".format(annuity, tax, after))
+        else:
+            tax = 0.00  # 个税金额
+            after = float(income) - annuity
         for i in [annuity, tax, after]:
             out.append(i)
         return out
