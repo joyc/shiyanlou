@@ -119,7 +119,7 @@ class UserData:
             tax = 0.00  # 个税金额
             after = float(income) - annuity
         for i in [annuity, tax, after]:
-            out.append(i)
+            out.append('{:.2f}'.format(i))
         return out
 
     def full(self):
