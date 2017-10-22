@@ -6,6 +6,26 @@ import sys
 # define deduction
 deductions = {0.03: 0, 0.1: 105, 0.2: 555, 0.25: 1005, 0.3: 2755, 0.35: 5505, 0.45: 13505}
 
+class Config:
+    """read and get the tax rate from config file"""
+
+    def __init__(self, configfile):
+        self.__config = {}
+        file = open(configfile, 'r')
+        filelist = file.readlines()
+        for i in filelist:
+            key = i.split('=')[0].strip()
+            value = i.split('=')[1].strip()
+            self.__config[key] = value
+
+    def get_config(self, name):
+        print(self.__config[name])
+        return self.__config[name]
+
+
+config = Config('test.cfg')
+config.get_config('GongJiJin')
+
 
 def insurance(income):
     """Definition insurance"""
