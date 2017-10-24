@@ -133,28 +133,50 @@ class UserData:
 
     def dumptofile(self, outputfile):
         contents = self.full()
-        print(contents)
+        #print(contents)
         out_file = open(outputfile, 'w', newline='')
         outwriter = csv.writer(out_file)
-        outwriter.writerow(i for i in contents)
+        for row in contents:
+            outwriter.writerow(row)
         out_file.close()
 
+class GetArgs:
 
-# if __name__ == '__main__':
-#     if len(sys.argv[1]) > 1:
-#         args = sys.argv[1:]
-#         if '-c' in args:
-#             index = args.index('-c')
-#             configfile = args[index+1]
-#             config = Config(configfile)
-#         if '-d' in args:
-#             index = args.index('-d')
-#             userfile = args[index+1]
-#             userdata = UserData(userfile)
-#         if '-o' in args:
-#             index = args.index('-o')
-#             outfile = args[index+1]
-#             userdata.dumptofile(outfile)
+    def __init__(self):
+        self.args = sys.argv[1:]
+
+    def get_arg(self, option):
+        args = self.args
+        if '-c' in args:
+            index = args.index('-c')
+            configfile = args[index+1]
+            config = Config(configfile)
+        if '-d' in args:
+            index = args.index('-d')
+            userfile = args[index+1]
+            userdata = UserData(userfile)
+        if '-o' in args:
+            index = args.index('-o')
+            outfile = args[index+1]
+            userdata.dumptofile(outfile)
+
+
+if __name__ == '__main__':
+    if len(sys.argv[1]) > 1:
+        args = sys.argv[1:]
+        print(args)
+        if '-c' in args:
+            index = args.index('-c')
+            configfile = args[index+1]
+            config = Config(configfile)
+        if '-d' in args:
+            index = args.index('-d')
+            userfile = args[index+1]
+            userdata = UserData(userfile)
+        if '-o' in args:
+            index = args.index('-o')
+            outfile = args[index+1]
+            userdata.dumptofile(outfile)
 #
 #         income = []
 #         p_no = []
@@ -173,9 +195,9 @@ class UserData:
 #         except ValueError:
 #             print("Parameter Error")
 
-config = Config('test.cfg')
-userdata = UserData('userinfo.csv')
-print(userdata.userdatas)
-#r = userdata.calculator(5000)
-#print(r)
-userdata.dumptofile('calculated.csv')
+# config = Config('test.cfg')
+# userdata = UserData('userinfo.csv')
+# print(userdata.userdatas)
+# #r = userdata.calculator(5000)
+# #print(r)
+# userdata.dumptofile('calculated.csv')
