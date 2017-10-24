@@ -128,14 +128,15 @@ class UserData:
             for j in self.calculator(p[1]):
                 p.append(j)
             datas.append(p)
-        print(datas)
+        #print(datas)
         return datas
 
     def dumptofile(self, outputfile):
         contents = self.full()
+        print(contents)
         out_file = open(outputfile, 'w', newline='')
         outwriter = csv.writer(out_file)
-        outwriter.writerow(contents)
+        outwriter.writerow(i for i in contents)
         out_file.close()
 
 
@@ -175,7 +176,6 @@ class UserData:
 config = Config('test.cfg')
 userdata = UserData('userinfo.csv')
 print(userdata.userdatas)
-r = userdata.calculator(5000)
+#r = userdata.calculator(5000)
 #print(r)
-#userdata.dumptofile('calculated.csv')
-userdata.full()
+userdata.dumptofile('calculated.csv')
