@@ -5,7 +5,9 @@
 # @File    : p3test.py
 import csv
 import sys
-from multiprocessing import Process
+from multiprocessing import Process, Queue, Pool
+
+queue = Queue()
 
 # define deduction
 deductions = {0.03: 0, 0.1: 105, 0.2: 555, 0.25: 1005, 0.3: 2755, 0.35: 5505, 0.45: 13505}
@@ -109,20 +111,22 @@ class UserData:
 
     def full(self):
         datas = []
+        pool = Pool(processes=3)
         for p in userdata.userdatas:
-            for j in self.calculator(p[1]):
+            for j in pool.apply(self.calculator, ((p[1]),)): # use pool for processes
                 p.append(j)
             datas.append(p)
         return datas
 
     def dumptofile(self, outputfile):
         #contents = self.full()
-        contents = Process(target=self.full(), args=(, ))
+        contents = Process(target=self.full)
         contents.start()
         contents.join()
+        queue.put(contents)
         out_file = open(outputfile, 'w', newline='')
         outwriter = csv.writer(out_file)
-        for row in contents:
+        for row in queue.get(contents): #get process data by queue.get
             outwriter.writerow(row)
         out_file.close()
 
@@ -142,14 +146,15 @@ def main():
                 p = Process(target=userdata.read_user_info, args=(userfile, ))
                 p.start()
                 p.join()
+                queue.put(p)
                 #userdata.read_user_info(userfile)
             if '-o' in args:
                 index = args.index('-o')
                 outfile = args[index+1]
                 #userdata.dumptofile(outfile)
-                p = Process(target=userdata.dumptofile, args=(outfile, ))
-                p.start()
-                p.join()
+                q = Process(target=userdata.dumptofile, args=(outfile, ))
+                q.start()
+                q.join()
         except ValueError:
             print("Parameter Error")
     else:
