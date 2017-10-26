@@ -1,1 +1,13 @@
-tet
+{% macro course_item(course, type="bootstrap") %}
+	<div>
+		<p> type: {{ type }} </p>
+		<p> name: {{ course.name }}</p>
+		<p> user count: {{ course.user_count }}</p>
+		<p> teacher: {{ course.teacher }}</p>
+		<p> is_private: {{ course.is_private }}</p>
+		<p> tags: {% for tag in course.tags %}
+			<span> {{ tag }} </span></br>
+		{% endfor %}
+		</p>
+	</div>
+{% endmacro %}
