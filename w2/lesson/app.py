@@ -3,9 +3,6 @@
 # @Time    : 2017/10/26 23:33
 # @Author  : Hython.com
 # @File    : app.py.py
-#!/usr/bin/env python3
-# -*- coding:utf-8 -*-
-
 from flask import Flask, render_template
 
 
@@ -18,7 +15,9 @@ def hidden_email(email):
     parts[0] = '*****'
     return '@'.join(parts)
 
+
 app.add_template_filter(hidden_email)
+
 
 @app.route('/')
 def index():
@@ -40,5 +39,3 @@ def index():
      }
 
     return render_template('index.html', course=course)
-
-
