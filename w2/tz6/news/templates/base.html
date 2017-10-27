@@ -1,1 +1,13 @@
-shiyanlou 404
+<body>
+	<div>
+		{% block header %}
+			<p> this is header </p>
+		{% endblock %}
+	</div>
+	<div>{% block content %}{% endblock %}</div>
+	<div id="footer">
+		{% block footer %}
+		&copy; Copyroght 2017 by <a href="http://lichuang.org">Li Chuang</a>.
+		{% endblock %}
+	</div>	
+</body>
