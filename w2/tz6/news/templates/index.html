@@ -1,1 +1,13 @@
-shiyanlou 404
+{% extends "base.html" %}
+{% from 'macro.html' import course_item %}
+
+{% block header %}
+	<h1> header </h1>
+{% endblock %}
+
+{% block content %}
+	<p> teacher email: {{ course.teacher.email | hidden_email }}</p>
+	<p> course tag length: {{ course.tags | length }} </p>
+
+	{{ course_item(course) }}
+{% endblock %}
