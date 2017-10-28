@@ -9,33 +9,37 @@ import json
 import os
 
 app = Flask(__name__)
+filepath = '../files/'
+
 
 @app.route('/')
 def index():
-	filepath = '../files/'
-	os.chdir(filepath)
-	titles = []
-	for file in os.listdir():
-		if file.endswith('.json'):
-			with open(file, 'r') as f:
-				contents = json.loads(f.read())
-				title = contents['title']
-				titles.append(title)
-	return 'article title : {}'.format([t for t in titles])
-
+    os.chdir(filepath)
+    titles = []
+    for file in os.listdir():
+        if file.endswith('.json'):
+            with open(file, 'r') as f:
+                contents = json.loads(f.read())
+                title = contents['title']
+                titles.append(title)
+    return 'article title : {}'.format([t for t in titles])
 
 
 @app.route('/files/<filename>')
 def file(filename):
-	filepath = '../files/'
-	with open(filepath + filename + '.json', 'r') as f:
-		contents = json.loads(f.read())
-		content = contents['content']
-	return content
+    try:
+        with open(filepath + filename + '.json', 'r') as f:
+            contents = json.loads(f.read())
+            content = contents['content']
+        return content
+    except IOError:
+        return not_found
+
 
 @app.errorhandler(404)
 def not_found(error):
-	return render_template('404.html'), 404
+    return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
-	app.run(debug=True)
+    app.run(debug=True)
