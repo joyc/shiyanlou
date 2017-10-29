@@ -4,11 +4,8 @@
 # @Author  : Hython.com
 # @File    : app.py
 
-import os
-import json
 from datetime import datetime
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -20,10 +17,12 @@ db = SQLAlchemy(app)
 
 
 class File(db.Model):
+    __tablename__ = 'files'
+
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80))
+    title = db.Column(db.String(80), unique=True)
     created_time = db.Column(db.DateTime)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     content = db.Column(db.Text)
     category = db.relationship('Category',
         backref=db.backref('articles', lazy='dynamic'))
@@ -39,6 +38,8 @@ class File(db.Model):
 
 
 class Category(db.Model):
+    __tablename__ = 'categories'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
@@ -61,22 +62,17 @@ class Category(db.Model):
 # db.session.add(file2)
 # db.session.commit()
 
-file_list = File.query.all()
 
 @app.route('/')
 def index():
+    file_list = File.query.all()
     return render_template('index.html', filelist=file_list)
 
 
-@app.route('/files/<file_id>')
-def file(filename):
-    try:
-        with open(filepath + filename + '.json', 'r') as f:
-            contents = json.loads(f.read())
-            content = contents['content']
-        return content
-    except IOError:
-        return not_found
+@app.route('/files/<int:file_id>')
+def file(file_id):
+    file_item = File.query.get_or_404(file_id)
+    return render_template('file.html', fileitem=file_item)
 
 
 @app.errorhandler(404)

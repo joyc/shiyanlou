@@ -1,7 +1,5 @@
-{% macro file_content(id) %}
 	<div>
-		<p>
-			article content: <a> {{ File.query.all().content }} </a></p>
-		</p>
+        <h2>{{ file_item['title'] }}</h2>
+        <p>{{ file_item['created_time'] }}</p>
+        <p>{{ file_item['content'] }}</p>
 	</div>
-{% endmacro %}
