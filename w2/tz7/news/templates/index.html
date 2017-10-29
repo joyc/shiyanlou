@@ -7,7 +7,7 @@
 {% block content %}
 {% if file_list %}
 	{% for file in file_list %}
-		<li> article : <a href="/file/{{ file.id }}"></a>{{ file.title }} </li>
+		<li> article : <a href="/files/{{ file.id }}"></a>{{ file.title }} </li>
 	{% endfor %}
 {% endif %}	
 {% endblock %}
