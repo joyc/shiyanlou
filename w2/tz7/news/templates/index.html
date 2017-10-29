@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-{% if file_list %}
-	{% for file in file_list %}
-		<li> article : <a href="/files/{{ file.id }}"></a>{{ file.title }} </li>
-	{% endfor %}
+{% if filelist %}
+{% for file in filelist %}
+<li>article : <a href="/files/{{ file.id }}">{{ file.title }}</a></li>
+{% endfor %}
 {% endif %}	
 {% endblock %}
