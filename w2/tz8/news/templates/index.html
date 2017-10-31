@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block header %}
+	<h1> Contents: </h1>
+{% endblock %}
+
+{% block content %}
+{% if filelist %}
+{% for file in filelist %}
+<li>article : <a href="/files/{{ file.id }}">{{ file.title }}</a></li>
+{% endfor %}
+{% endif %}	
+{% endblock %}

@@ -1,0 +1,13 @@
+<body>
+	<div>
+		{% block header %}
+			<p> this is header </p>
+		{% endblock %}
+	</div>
+	<div>{% block content %}{% endblock %}</div>
+	<div id="footer">
+		{% block footer %}
+		&copy; Copyroght 2017 by <a href="http://hython.com">Hython</a>.
+		{% endblock %}
+	</div>	
+</body>
