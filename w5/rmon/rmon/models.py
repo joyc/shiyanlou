@@ -3,7 +3,6 @@
 该模块实现了所有的 model 类以及相应的序列化类
 """
 from flask_sqlalchemy import SQLAlchemy
-
 from datetime import datetime
 
 db = SQLAlchemy()
