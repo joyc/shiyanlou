@@ -24,17 +24,18 @@ class Server(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # 用于打印时看到server类实例的名称
     def __repr__(self):
         return '<Server(name=%s)>' % self.name
 
     def save(self):
-        """保存到数据库中
+        """将Server实例保存到数据库中
         """
         db.session.add(self)
         db.session.commit()
 
     def delete(self):
-        """从数据库中删除
+        """将Server实例从数据库中删除
         """
         db.session.delete(self)
         db.session.commit()

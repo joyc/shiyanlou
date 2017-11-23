@@ -8,6 +8,7 @@ from rmon.models import db
 
 app = create_app()
 
+
 @app.cli.command()
 def init_db():
     """初始化数据库
