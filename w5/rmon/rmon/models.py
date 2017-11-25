@@ -4,6 +4,8 @@
 """
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from redis import StrictRedis, RedisError
+from .common.rest import RestException
 
 db = SQLAlchemy()
 
@@ -28,6 +30,10 @@ class Server(db.Model):
     def __repr__(self):
         return '<Server(name=%s)>' % self.name
 
+    @property
+    def redis(self):
+        return StrictRedis(host=self.host, port=self.port, password=self.password)
+
     def save(self):
         """将Server实例保存到数据库中
         """
@@ -39,3 +45,20 @@ class Server(db.Model):
         """
         db.session.delete(self)
         db.session.commit()
+
+    def ping(self):
+        """检查 Redis 服务器是否可以访问
+        """
+        try:
+            return self.redis.ping()
+        except RedisError:
+            raise RestException(400, 'redis server %s can not connected' % self.host)
+
+    def get_metrics(self):
+        """获取Redis服务器监控信息，通过Redis服务器指令INFO
+        返回监控信息，参考 https://redis.io/commands/INFO
+        """
+        try:
+            return self.redis.info()
+        except RedisError:
+            raise RestException(400, 'redis server %s can not connected' % self.host)

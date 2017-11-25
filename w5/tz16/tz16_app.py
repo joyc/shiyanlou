@@ -28,7 +28,7 @@ def create_app():
                 if l.startswith('#'):
                     continue
                 else:
-                    continue += l
+                    content += l
     except IOError:
         return app
 
