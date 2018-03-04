@@ -14,4 +14,3 @@ def init_db():
     """
     print("sqlite3 database file is %s" % app.config['SQLALCHEMY_DATABASE_URI'])
     db.create_all()
-    
