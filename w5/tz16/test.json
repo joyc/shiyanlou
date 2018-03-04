@@ -1,0 +1,9 @@
+# 这是注释行
+{
+  # 这是注释行
+  "SQLALCHEMY_URI": "sqlite:///"
+  "DEBUG": "True"
+  "SQLALCHEMY_TRACK_MODIFICATIONS": "False"
+  "SQLALCHEMY_DATABASE_URI": "sqlite://"
+  "TEMPLATES_AUTO_RELOAD": "True"
+}
