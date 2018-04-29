@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @Time    : 2017/10/28 1:23
 # @Author  : Hython.com
-# @File    : app.py.py
+# @File    : app.py
 
 from flask import Flask, render_template
 import json
