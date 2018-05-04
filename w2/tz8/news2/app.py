@@ -8,74 +8,70 @@ from datetime import datetime
 from pymongo import MongoClient
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
 
+db = SQLAlchemy()
 
 app = Flask(__name__)
 
-app.config.update(dict(
-    SQLALCHEMY_DATABASE_URI =  'mysql://root:@localhost/shiyanlou'
-))
+app.config.update({
+    'SQLALCHEMY_DATABASE_URI': 'mysql://root:@localhost/news'
+})
 
-db = SQLAlchemy(app)
-mongo = MongoClient('127.0.0.1', 27017).shiyanlou
+db.init_app(app)
+# 生成mongo客户端并选择news数据库
+mongo = MongoClient('127.0.0.1', 27017).news
 
 
 class File(db.Model):
+
     __tablename__ = 'files'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True)
-    created_time = db.Column(db.DateTime)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    category = db.relationship('Category', uselist=False)
     content = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, title, created_time, category, content):
-        self.title = title
-        self.created_time = created_time
-        self.category = category
-        self.content = content
+    category = db.relationship('Category', uselist=False)
 
-    def add_tag(self, tag_name):
-        file_item = mongo.files.find_one({'file_id': self.id})
-        if file_item:
-            tags = file_item['tags']
-            if tag_name not in tags:
-                tags.append(tag_name)
-            mongo.files.update_one({'file_id': self.id}, {'$set': {'tags': tags}})
-        else:
-            tags = [tag_name]
-            mongo.files.insert_one({'file_id': self.id, 'tags': tags})
-        return tags
+    def add_tag(self, tag):
+        mongo.file.update_one({'_id': self.id}, {'$addToSet': {'tags': tag}})
+        return self.__file['tags']
 
-    def remove_tag(self, tag_name):
-        file_item = mongo.files.find_one({'file_id': self.id})
-        if file_item:
-            tags = file_item['tags']
-            try:
-                tags.remove(tag_name)
-                new_tags = tags
-            except ValueError:
-                return tags
-            mongo.files.update_one({'file_id': self.id}, {'$set': {'tags': new_tags}})
-            return new_tags
-        return []
+    def remove_tag(self, tag):
+        mongo.file.update_one({'_id': self.id}, {'$pull': {'tags': tag}})
+        return self.__file['tags']
+
+    @property
+    def __file(self):
+        return mongo.file.find_one({'_id': self.id})
 
     @property
     def tags(self):
-        file_item = mongo.files.find_one({'file_id': self.id})
-        if file_item:
-            print(file_item)
-            return file_item['tags']
-        else:
-            return []
+        return self.__file['tags']
+
+
+# File对象插入数据库时，自动创建关联的mongodb对象
+@event.listens_for(File, 'after_insert')
+def auto_create_mongodb_file(mapper, conn, file):
+    mongo.file.insert_one({'_id': file.id})
+
+
+# File对象从数据库删除，自动删除关联的mongodb对象
+@event.listens_for(File, 'after_delete')
+def auto_delete_mongodb_file(mapper, conn, file):
+    mongo.file.delete_one({'_id': file.id})
 
 
 class Category(db.Model):
+
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    files = db.relationship('File')
 
     def __init__(self, name):
         self.name = name
@@ -99,6 +95,7 @@ def insert_datas():
 
 
 @app.route('/')
+@app.route('/files/')
 def index():
     return render_template('index.html', filelist=File.query.all())
 
@@ -115,4 +112,8 @@ def not_found(error):
 
 
 if __name__ == '__main__':
+    # 创建数据库
+    db.create_all()
+    if not Category.query.filter_by(name='Java').first():
+        insert_datas()
     app.run(port=3000, debug=True)
