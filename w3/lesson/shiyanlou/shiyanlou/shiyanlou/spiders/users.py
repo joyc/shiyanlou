@@ -5,19 +5,19 @@ import requests
 from datetime import datetime, timedelta
 from shiyanlou.items import UserItem
 
+
 class UsersSpider(scrapy.Spider):
     name = 'users'
     # allowed_domains = ['shiyanlou.com']
     # start_urls = ['http://shiyanlou.com/']
 
-    @@property
+    @property
     def start_urls(self):
         """
         注册用户数目前大约50几万，这里取 id 在 524,700~525,500 之间的新用户，
         每间隔 20 取一个，最后大概爬取 40 个用户的数据
         """
         return ('https://www.shiyanlou.com/user/{}/'.format(i) for i in range(525500, 524700, -20))
-
 
     def parse(self, response):
         yield UserItem({
