@@ -1,16 +1,15 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, DateTime
+# -*- coding: utf-8 -*-
+
+# Define here the models for your scraped items
+#
+# See documentation in:
+# http://doc.scrapy.org/en/latest/topics/items.html
+
+import scrapy
 
 
-engine = create_engine('mysql+mysqldb://root@localhost:3306/shiyanlougithub?charset=utf8')
-Base = declarative_base()
-
-class Repository(Base):
-    __tablename__ = 'repositories'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(64))
-    update_time = Column(DateTime)
-
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+class GithubItem(scrapy.Item):
+    # define the fields for your item here like:
+    name = scrapy.Field()
+    description = scrapy.Field()
+    update_time = scrapy.Field()
