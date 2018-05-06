@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from shiyanlou.models import Course, engine
 from scrapy.exceptions import DropItem
 
+
 class ShiyanlouPipeline(object):
 
     def process_item(self, item, spider):
