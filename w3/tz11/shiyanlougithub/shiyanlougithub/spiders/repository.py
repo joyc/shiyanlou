@@ -4,7 +4,7 @@ from shiyanlougithub.items import GithubItem
 
 
 class RepositorySpider(scrapy.Spider):
-    name = 'shiyanlou-github'
+    name = 'repository'
     allowed_domains = ['github.com']
 
     @property

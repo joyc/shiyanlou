@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
-import requests
+# import requests
 from datetime import datetime, timedelta
 from shiyanlou.items import UserItem
 
