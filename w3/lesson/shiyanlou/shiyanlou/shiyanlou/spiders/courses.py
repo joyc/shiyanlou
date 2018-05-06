@@ -15,7 +15,7 @@ class CoursesSpider(scrapy.Spider):
 
     def parse(self, response):
         for course in response.css('div.course-body'):
-            # 将返回结果包装为 CourseItem 其它地方同上一节
+            # 将返回结果包装为 CourseItem
             item = CourseItem({
                 'name': course.css('div.course-name::text').extract_first(),
                 'description': course.css('div.course-desc::text').extract_first(),
