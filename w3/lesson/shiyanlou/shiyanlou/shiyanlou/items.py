@@ -35,3 +35,9 @@ class CourseImageItem(scrapy.Item):
     image_urls = scrapy.Field()
     # 下载的图片会先放着这里
     images = scrapy.Field()
+
+
+class MultipageCourseItem(scrapy.Item):
+    name = scrapy.Field()
+    image = scrapy.Field()
+    author = scrapy.Field()
