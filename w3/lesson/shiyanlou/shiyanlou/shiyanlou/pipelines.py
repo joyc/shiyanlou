@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 from shiyanlou.models import Course, User, engine
 from shiyanlou.items import CourseItem, UserItem
-from scrapy.exceptions import DropItem
+# from scrapy.exceptions import DropItem
 
 
 class ShiyanlouPipeline(object):
