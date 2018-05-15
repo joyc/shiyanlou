@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from shiyanlou.item import MultipageCourseItem
+from shiyanlou.items import MultipageCourseItem
 
 
 class MultipageSpider(scrapy.Spider):

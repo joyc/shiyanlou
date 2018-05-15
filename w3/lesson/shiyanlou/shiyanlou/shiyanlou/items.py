@@ -7,6 +7,13 @@
 import scrapy
 
 
+class CourseImageItem(scrapy.Item):
+    # 要下载的图片 url 列表
+    image_urls = scrapy.Field()
+    # 下载的图片会先放着这里
+    images = scrapy.Field()
+
+
 class CourseItem(scrapy.Item):
     """
     定义 Item 需要继承 scrapy.Item 类，将每个要爬取的数据声明为 scrapy.Field()。
@@ -28,13 +35,6 @@ class UserItem(scrapy.Item):
     level = scrapy.Field()
     join_date = scrapy.Field()
     learn_courses_num = scrapy.Field()
-
-
-class CourseImageItem(scrapy.Item):
-    # 要下载的图片 url 列表
-    image_urls = scrapy.Field()
-    # 下载的图片会先放着这里
-    images = scrapy.Field()
 
 
 class MultipageCourseItem(scrapy.Item):

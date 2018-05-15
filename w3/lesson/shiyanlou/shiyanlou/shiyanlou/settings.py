@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scrapy.pipelines.images.ImagesPipeline': 100,
-    'shiyanlou.pipelines.ShiyanlouPipeline': 300,
+    # 'shiyanlou.pipelines.ShiyanlouPipeline': 300,
 }
 
 IMAGES_STORE = 'images'
