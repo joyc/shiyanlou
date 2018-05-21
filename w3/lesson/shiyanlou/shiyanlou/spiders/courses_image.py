@@ -11,5 +11,5 @@ class CoursesImageSpider(scrapy.Spider):
     def parse(self, response):
         item = CourseImageItem()
         # 解析图片链接到 item
-        item['image_urls'] = response.xpath('div[@class="course-img"]/img/@src').extract()
+        item['image_urls'] = response.xpath('//div[@class="course-img"]/img/@src').extract()
         yield item
