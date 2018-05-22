@@ -35,7 +35,6 @@ class LoginSpiderSpider(scrapy.Spider):
     # def parse_after_login(self, response):
     #     pass
 
-
     def parse(self, response):
         # 获取表单的 csrf_token
         csrf_token = response.xpath('//div[@class="login-body"]//input[@id="csrf_token"]/@value').extract_first()
