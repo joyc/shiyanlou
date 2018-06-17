@@ -87,7 +87,7 @@ def spider():
         page += 1
         goto_next_page(driver)
     # 将 results 使用 json 序列化后写入文件
-    with open('comments.csv', 'w') as f:
+    with open('comments.json', 'w') as f:
         f.write(json.dumps(results))
 
 
